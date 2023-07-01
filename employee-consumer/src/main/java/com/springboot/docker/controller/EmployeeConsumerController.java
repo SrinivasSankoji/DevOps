@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,9 @@ public class EmployeeConsumerController {
 	@RequestMapping(value = "/consumer", method = RequestMethod.GET)
 	public ResponseEntity<String> getEmployee() throws RestClientException, IOException {
 
-		String baseUrl = "http://employee-producer:8600/employee";
+		/** Need to pass the Container Name and not the Tag **/
+		/** docker run --network producer-consumer --name producer -d -p 8601:8600 employee-producer **/
+		String baseUrl = "http://producer:8600/employee";
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response=null;
 		try{
@@ -36,5 +39,10 @@ public class EmployeeConsumerController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		return new HttpEntity<>(headers);
+	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ResponseEntity<String> homePage()  {
+		return new ResponseEntity<>("Application is up and running", HttpStatus.OK);
 	}
 }

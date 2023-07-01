@@ -1,0 +1,18 @@
+version : "3.3"
+services:
+  consumer :
+    image : employee-consumer
+    ports :
+      - "8501:8500"
+    networks : 
+      - producer-consumer
+      
+  producer :
+    image  : employee-producer
+    ports  :
+     - "8601:8600"
+    networks :
+      - producer-consumer
+      
+networks:
+  producer-consumer :

@@ -1,0 +1,20 @@
+version: '3.3'
+
+services :
+  mysql-container :
+    image : mysql:latest
+    environment :
+    - MYSQL_ROOT_PASSWORD=admin123 
+    - MYSQL_DATABASE=test 
+    - MYSQL_USER=testuser 
+    - MYSQL_PASSWORD=testuser@123
+    
+  springboot-mysql-docker :
+     image : springboot-mysql-docker
+     ports :
+      - 8603:8600
+     build:
+       context: ./
+       dockerfile: Dockerfile
+     depends_on:
+       - mysql-container
